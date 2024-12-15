@@ -2,18 +2,18 @@
   <VRow align="center" justify="center" style="height: 100vh">
     <VCard width="448" elevation="0" class="border">
       <VCol cols="12" align-self="center">
-        <VCardItem class="text-center text-h5">
+        <VCardItem class="text-center text-h5 my-4">
           <div>Hi There, Welcome to</div>
           <div>Hoffmann Lane</div>
         </VCardItem>
-        <VCardText class="pt-2 text-center">
+        <VCardText class="text-center">
           <p class="mb-0">Please Register Here !</p>
         </VCardText>
 
         <VCardText>
           <VForm @submit.prevent="() => {}">
             <VRow no-gutters>
-              <VCol cols="12" class="my-4">
+              <VCol cols="12" class="my-2">
                 <VTextField
                   v-model="form.email"
                   type="email"
@@ -22,7 +22,7 @@
                   variant="outlined"
                 />
               </VCol>
-              <VCol cols="12" class="my-4">
+              <VCol cols="12" class="my-2">
                 <VTextField
                   v-model="form.username"
                   placeholder="Username"
@@ -31,7 +31,7 @@
                 />
               </VCol>
 
-              <VCol cols="12" class="my-4">
+              <VCol cols="12" class="my-2">
                 <VTextField
                   v-model="form.password"
                   placeholder="password"
@@ -45,7 +45,7 @@
                 />
               </VCol>
 
-              <VCol cols="12" class="text-center text-base my-6">
+              <VCol cols="12" class="text-center text-base my-4">
                 <VBtn
                   class="text-none"
                   block

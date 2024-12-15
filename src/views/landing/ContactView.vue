@@ -33,7 +33,10 @@
               <v-col cols="12" sm="6" md="6">
                 <v-card class="border-none" color="background">
                   <v-card-item>
-                    <div class="text-start text-h6">
+                    <div
+                      class="text-start"
+                      style="font-size: 26px; font-weight: 350"
+                    >
                       Looking to enjoy the meal in town, or have a question
                       about our menu? We’d love to hear from you! Our team is
                       ready to provide information, take reservations, or even

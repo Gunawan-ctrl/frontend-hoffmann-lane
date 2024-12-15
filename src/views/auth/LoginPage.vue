@@ -1,14 +1,18 @@
 <template>
   <v-row no-gutters align="center" justify="center">
     <v-col cols="12" md="6">
-      <v-card :disabled="loading" :loading="loading" class="border-none">
+      <v-card
+        :disabled="loading"
+        :loading="loading"
+        class="border-none overflow-hidden"
+      >
         <v-img src="images/login-image1.png" height="100%" />
       </v-card>
     </v-col>
     <v-col cols="12" md="6" align="center">
       <v-card
         max-width="400"
-        class="border-none text-center my-8"
+        class="border-none text-center my-8 overflow-hidden"
         elevation="0"
         color="background"
       >
@@ -90,4 +94,8 @@ const login = async () => {
 };
 </script>
 
-<style scoped></style>
+<style>
+body {
+  overflow: hidden;
+}
+</style>

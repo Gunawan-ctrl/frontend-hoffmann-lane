@@ -1,9 +1,11 @@
 <template>
-  <v-row>
+  <v-row no-gutters>
     <v-col cols="12">
-      <div class="text-h5 font-weight-bold">List Of {{ route.meta.title }}</div>
+      <div class="text-h5 font-weight-bold mb-4">
+        List Of {{ route.meta.title }}
+      </div>
     </v-col>
-    <v-col :cols="btnAdd ? '5' : '12'" md="4">
+    <v-col cols="6" md="4">
       <VCard class="mb-6 border-none">
         <v-text-field
           v-model="search"
@@ -18,22 +20,12 @@
       </VCard>
     </v-col>
     <v-spacer />
-    <v-col
-      cols="auto"
-      v-show="
-        ![
-          'Pelanggan',
-          'Transaksi',
-          'Detail Pelanggan',
-          'Detail Order',
-        ].includes(route.meta.title)
-      "
-    >
+    <v-col cols="auto">
       <v-btn
         class="text-capitalize text-orange"
         color="btncolor"
         prepend-icon="mdi-plus"
-        @click="addItem"
+        @click="emit('addItem')"
       >
         add {{ route.meta.title }}
       </v-btn>
@@ -56,25 +48,51 @@
       </template>
 
       <template v-slot:[`item.actions`]="{ item }">
-        <v-btn
-          class="mx-2 text-capitalize"
-          color="edit"
-          prepend-icon="mdi-pencil"
-          size="small"
-          @click="$emit('editItem', item)"
+        <div
+          class="action-buttons d-flex justify-center align-center text-center"
         >
-          Edit
-        </v-btn>
+          <v-btn
+            class="text-capitalize"
+            color="edit"
+            prepend-icon="mdi-pencil"
+            size="small"
+            @click="emit('editItem', item)"
+          >
+            Edit
+          </v-btn>
 
-        <v-btn
-          class="text-capitalize text-black"
-          color="red"
-          prepend-icon="mdi-delete"
-          size="small"
-          @click="$emit('deleteItem', item.id)"
-        >
-          Delete</v-btn
-        >
+          <v-btn
+            class="mx-2 text-capitalize text-black"
+            color="red"
+            prepend-icon="mdi-delete"
+            size="small"
+            @click="emit('deleteItem', item.id)"
+          >
+            Delete
+          </v-btn>
+
+          <v-btn
+            v-if="emit('openImage')"
+            class="text-capitalize text-black"
+            color="blue"
+            prepend-icon="mdi-image"
+            size="small"
+            @click="emit('openImage', item.id)"
+          >
+            Image
+          </v-btn>
+
+          <v-btn
+            v-if="emit('changePassword')"
+            class="text-capitalize text-black"
+            color="grey"
+            prepend-icon="mdi-image"
+            size="small"
+            @click="emit('changePassword', item.id)"
+          >
+            Image
+          </v-btn>
+        </div>
       </template>
       <template v-slot:no-data>
         <p class="text-red">
@@ -86,7 +104,7 @@
 </template>
 
 <script setup>
-import { ref, defineEmits } from "vue";
+import { ref, defineProps, defineEmits } from "vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
@@ -109,10 +127,14 @@ defineProps({
   tableTitle: String,
 });
 
-const $emit = defineEmits(["addItem", "editItem", "deleteItem", "showDetail"]);
+const emit = defineEmits([
+  "addItem",
+  "editItem",
+  "deleteItem",
+  "showDetail",
+  "changePassword",
+  "openImage",
+]);
 
 const search = ref("");
-const addItem = () => {
-  $emit("addItem");
-};
 </script>

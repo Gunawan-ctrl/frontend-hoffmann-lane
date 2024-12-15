@@ -27,7 +27,7 @@
                 :value="1"
                 class="mr-2"
               >
-                Landscape
+                New Menu
               </v-tab>
               <v-tab
                 height="40"
@@ -36,7 +36,7 @@
                 color="btncolor"
                 :value="2"
                 class="mr-2"
-                >City</v-tab
+                >Snack</v-tab
               >
               <v-tab
                 height="40"
@@ -44,7 +44,7 @@
                 variant="flat"
                 color="btncolor"
                 :value="3"
-                >Abstract</v-tab
+                >Coffee</v-tab
               >
             </v-tabs>
 

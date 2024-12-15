@@ -7,6 +7,7 @@
       @addItem="openDialog"
       @editItem="openDialog"
       @deleteItem="deleteItem"
+      @openImage="openDialogImage"
     />
   </div>
 </template>
@@ -52,6 +53,10 @@ const showDetail = (item) => {
 };
 
 const openDialog = (item) => {
+  console.log(item);
+};
+
+const openDialogImage = (item) => {
   console.log(item);
 };
 
