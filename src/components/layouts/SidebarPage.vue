@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer v-model="drawer" app :width="300" color="secondary">
+  <v-navigation-drawer v-model="drawer" app :width="275" color="secondary">
     <v-sheet class="text-center" color="secondary">
       <v-avatar size="100">
         <v-img src="/logo/logo.png"></v-img>

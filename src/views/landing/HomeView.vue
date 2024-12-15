@@ -15,7 +15,7 @@
           <v-img class="mx-auto" src="/assets/image-1.png" cover></v-img>
         </v-card>
       </v-col>
-      <v-col cols="12" md="8" class="md-pl-12">
+      <v-col cols="12" md="8" class="pl-md-12">
         <v-card
           height="536"
           class="d-flex align-center border-none"

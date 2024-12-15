@@ -3,7 +3,7 @@
     <sidebar-page v-model="drawer" />
     <header-page @drawerEvent="drawer = !drawer" />
     <v-main>
-      <v-container class="px-6" fluid color="white">
+      <v-container class="px-md-6" fluid color="white">
         <router-view />
       </v-container>
     </v-main>
