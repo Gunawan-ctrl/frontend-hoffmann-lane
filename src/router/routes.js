@@ -155,27 +155,42 @@ export default [
       {
         path: "/",
         name: "index",
+        meta: {
+          title: "Home",
+        },
         component: () => import("@/views/landing/IndexView.vue"),
       },
       {
         path: "/home",
         name: "home",
+        meta: {
+          title: "Home",
+        },
         component: () => import("@/views/landing/HomeView.vue"),
       },
       {
         path: "/menu",
         name: "menu",
+        meta: {
+          title: "Menu",
+        },
         component: () => import("@/views/landing/MenuView.vue"),
 
       },
       {
         path: "/recomendation",
         name: "recomendation",
+        meta: {
+          title: "Recomendation",
+        },
         component: () => import("@/views/landing/RecomendationView.vue"),
       },
       {
         path: "/contact",
         name: "contact",
+        meta: {
+          title: "Contact",
+        },
         component: () => import("@/views/landing/ContactView.vue"),
       },
     ],
