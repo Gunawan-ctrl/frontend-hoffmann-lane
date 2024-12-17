@@ -3,6 +3,7 @@ import theme from './theme'
 
 import "@mdi/font/css/materialdesignicons.css";
 import 'vuetify/styles'
+// import { VFileUpload } from 'vuetify/labs/VFileUpload'
 
 // import { createApp } from "vue";
 import { createVuetify } from "vuetify";

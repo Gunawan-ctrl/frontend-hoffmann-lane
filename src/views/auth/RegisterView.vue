@@ -67,17 +67,20 @@
 <script setup>
 import { ref, reactive } from "vue";
 import { useRouter } from "vue-router";
+import { useUserStore } from "@/stores/userStore";
+
+const userStore = useUserStore();
 const form = reactive({
   username: "",
   email: "",
   password: "",
-  privacyPolicies: false,
 });
 
 const router = useRouter();
 const isPasswordVisible = ref(false);
 
 const handleSubmit = () => {
+  userStore.register(form);
   router.push({ name: "login" });
 };
 </script>

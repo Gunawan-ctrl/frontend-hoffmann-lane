@@ -22,23 +22,31 @@
           <div>Hoffmann Lane</div>
         </v-card-item>
 
-        <v-card-text class="py-4">
-          <v-form @submit.prevent="login">
+        <v-form v-model="valid" @submit.prevent="login">
+          <v-card-text class="py-4">
             <v-text-field
               v-model="form.email"
               type="email"
+              :rules="[
+                (v) => !!v || 'E-mail is required',
+                (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+              ]"
               placeholder="Email"
               required
-              variant="outlined"
-              density="compact"
             />
             <v-text-field
               class="mt-4"
               v-model="form.password"
               placeholder="Password"
-              type="password"
-              required
-              variant="outlined"
+              :type="isPasswordVisible ? 'text' : 'password'"
+              :append-inner-icon="isPasswordVisible ? 'mdi-eye-off' : 'mdi-eye'"
+              @click:append-inner="isPasswordVisible = !isPasswordVisible"
+              :rules="[
+                (v) => !!v || 'Password is required',
+                (v) =>
+                  (v && v.length >= 4) ||
+                  'Password must be less than 4 characters',
+              ]"
               density="compact"
             />
             <div class="text-end">
@@ -46,18 +54,19 @@
                 Forgot password ?
               </RouterLink>
             </div>
-          </v-form>
-        </v-card-text>
-        <v-card-text>
-          <v-btn
-            color="btncolor"
-            @click="login"
-            :loading="loading"
-            :disabled="loading"
-          >
-            Sign In
-          </v-btn>
-        </v-card-text>
+          </v-card-text>
+          <v-card-text>
+            <v-btn
+              color="btncolor"
+              type="submit"
+              :disabled="!valid"
+              :loading="loading"
+            >
+              Sign In
+            </v-btn>
+          </v-card-text>
+        </v-form>
+
         <span>Don't have an account?</span>
         <RouterLink
           class="text-primary text-decoration-none"
@@ -72,25 +81,23 @@
 
 <script setup>
 import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { useUserStore } from "@/stores/userStore";
 
+// store
+const userStore = useUserStore();
+
+// state
 const form = ref({
   email: "",
   password: "",
 });
 const loading = ref(false);
+const isPasswordVisible = ref(false);
+const valid = ref(true);
 
-const router = useRouter();
-
+// methods
 const login = async () => {
-  loading.value = true;
-  try {
-    router.push({ name: "dashboard" });
-  } catch (error) {
-    console.error(error);
-  } finally {
-    loading.value = false;
-  }
+  await userStore.login(form.value);
 };
 </script>
 

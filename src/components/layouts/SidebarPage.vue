@@ -4,12 +4,14 @@
       <v-avatar size="100">
         <v-img src="/logo/logo.png"></v-img>
       </v-avatar>
-      <div class="font-weight-bold" style="margin-top: -17px">Devi</div>
+      <div class="font-weight-bold" style="margin-top: -17px">
+        {{ dataUser.username }}
+      </div>
       <div
         class="text-capitalize text-overline text-brown-500"
         style="margin-top: -8px"
       >
-        Administrator
+        {{ dataUser.role === 1 ? "Administrator" : "User" }}
       </div>
     </v-sheet>
 
@@ -46,6 +48,13 @@
       >
       </v-list-item>
       <v-list-item
+        title="Kategori"
+        prepend-icon="mdi-folder"
+        value="category"
+        :to="{ name: 'category' }"
+      >
+      </v-list-item>
+      <v-list-item
         title="Our Menu"
         prepend-icon="mdi-silverware"
         value="ourmenu"
@@ -57,7 +66,13 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 
 const drawer = ref(true);
+
+const dataUser = ref(JSON.parse(localStorage.getItem("dataUser")));
+
+onMounted(() => {
+  console.log(dataUser.value);
+});
 </script>

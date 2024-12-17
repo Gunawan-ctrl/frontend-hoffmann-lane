@@ -1,5 +1,4 @@
 import vuetify from './plugins/vuetify'
-
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 

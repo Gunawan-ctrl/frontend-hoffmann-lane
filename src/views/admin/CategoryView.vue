@@ -1,24 +1,23 @@
 <template>
-  <div class="about">
+  <div class="menu">
     <data-table
       :Headers="headers"
-      :data="userStore.data"
+      :data="categoryStore.data"
       @showDetail="showDetail"
       @addItem="addItem"
       @editItem="editItem"
       @deleteItem="deleteItem"
-      @changePassword="changePassword"
     />
   </div>
 </template>
 
 <script setup>
 import { onMounted, ref } from "vue";
-import DataTable from "@/components/DataTable.vue";
-import { useUserStore } from "@/stores/userStore";
 import { useRouter } from "vue-router";
+import DataTable from "@/components/DataTable.vue";
+import { useCategoryStore } from "@/stores/categoryStore";
 
-const userStore = useUserStore();
+const categoryStore = useCategoryStore();
 const router = useRouter();
 const headers = ref([
   {
@@ -28,32 +27,28 @@ const headers = ref([
     key: "no",
     value: "no",
   },
-  { title: "Email", key: "email" },
-  { title: "Username", key: "username" },
-  { title: "Role", key: "role" },
+  { title: "Name", key: "name" },
+  { title: "Description", key: "description" },
   { title: "Actions", key: "actions", sortable: false, align: "center" },
 ]);
 
 const getData = async () => {
-  await userStore.getAll();
+  await categoryStore.getAll();
 };
 
+const addItem = () => {
+  router.push({ name: "addCategory" });
+};
 const showDetail = (item) => {
   console.log(item);
 };
 
-const addItem = () => {
-  router.push({ name: "addUser" });
-};
-
 const editItem = (id) => {
-  router.push({ name: "editUser", params: { id } });
+  router.push({ name: "editCategory", params: { id } });
 };
-
-const changePassword = () => {};
 
 const deleteItem = (id) => {
-  userStore.deleteOne(id);
+  categoryStore.delete(id);
 };
 
 onMounted(() => {

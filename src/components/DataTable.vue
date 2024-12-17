@@ -40,11 +40,13 @@
       :items-per-page="totalPage"
     >
       <template v-slot:top> </template>
-      <template v-slot:[`item.nama`]="{ item }">
-        <span class="text-capitalize">{{ item.namaCustomer }}</span>
+      <template v-slot:[`item.role`]="{ item }">
+        <span class="text-capitalize">{{
+          item.role === 1 ? "Admin" : "User"
+        }}</span>
       </template>
-      <template v-slot:[`item.alamat`]="{ item }">
-        <span class="text-capitalize">{{ item.alamat }}</span>
+      <template v-slot:[`item.category`]="{ item }">
+        <span class="text-capitalize">{{ item.category.name }}</span>
       </template>
 
       <template v-slot:[`item.actions`]="{ item }">
@@ -56,7 +58,7 @@
             color="edit"
             prepend-icon="mdi-pencil"
             size="small"
-            @click="emit('editItem', item)"
+            @click="emit('editItem', item.id)"
           >
             Edit
           </v-btn>
@@ -66,13 +68,14 @@
             color="red"
             prepend-icon="mdi-delete"
             size="small"
+            :disabled="item.role === 1"
             @click="emit('deleteItem', item.id)"
           >
             Delete
           </v-btn>
 
           <v-btn
-            v-if="emit('openImage')"
+            v-if="route.meta.title === 'Menu'"
             class="text-capitalize text-black"
             color="blue"
             prepend-icon="mdi-image"
@@ -83,14 +86,14 @@
           </v-btn>
 
           <v-btn
-            v-if="emit('changePassword')"
+            v-if="route.meta.title === 'Users'"
             class="text-capitalize text-black"
             color="grey"
-            prepend-icon="mdi-image"
+            prepend-icon="mdi-lock"
             size="small"
             @click="emit('changePassword', item.id)"
           >
-            Image
+            Change Password
           </v-btn>
         </div>
       </template>
