@@ -11,24 +11,17 @@
         </VCardText>
 
         <VCardText>
-          <VForm @submit.prevent="() => {}">
+          <VForm @submit.prevent="handleSubmit">
             <VRow no-gutters>
               <VCol cols="12" class="my-2">
                 <VTextField
                   v-model="form.email"
                   type="email"
                   placeholder="Email"
-                  density="compact"
-                  variant="outlined"
                 />
               </VCol>
               <VCol cols="12" class="my-2">
-                <VTextField
-                  v-model="form.username"
-                  placeholder="Username"
-                  density="compact"
-                  variant="outlined"
-                />
+                <VTextField v-model="form.username" placeholder="Username" />
               </VCol>
 
               <VCol cols="12" class="my-2">
@@ -40,19 +33,11 @@
                     isPasswordVisible ? 'mdi-eye-off' : 'mdi-eye'
                   "
                   @click:append-inner="isPasswordVisible = !isPasswordVisible"
-                  density="compact"
-                  variant="outlined"
                 />
               </VCol>
 
               <VCol cols="12" class="text-center text-base my-4">
-                <VBtn
-                  class="text-none"
-                  block
-                  color="#c1c4ac"
-                  type="submit"
-                  @click="handleSubmit"
-                >
+                <VBtn class="text-none" block color="#c1c4ac" type="submit">
                   Sign up
                 </VBtn>
               </VCol>

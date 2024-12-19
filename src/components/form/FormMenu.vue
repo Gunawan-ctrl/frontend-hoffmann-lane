@@ -75,12 +75,13 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useCategoryStore } from "@/stores/categoryStore";
 import { useMenuStore } from "@/stores/menuStore";
 
 const categoryStore = useCategoryStore();
 const route = useRoute();
+const router = useRouter();
 const menuStore = useMenuStore();
 const form = ref({
   name: "",
@@ -110,6 +111,7 @@ const addItem = () => {
   }
   if (route.name === "addMenu") {
     menuStore.create(formData);
+    router.push({ name: "menu" });
   }
 };
 

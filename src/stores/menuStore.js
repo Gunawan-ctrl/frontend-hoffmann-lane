@@ -9,6 +9,7 @@ export const useMenuStore = defineStore({
   state: () => ({
     data: [],
     dataDetail: {},
+    dataMenuByCategory: [],
     dialogImage: false,
     idActive: null,
   }),
@@ -33,6 +34,21 @@ export const useMenuStore = defineStore({
         const response = await axiosInstance.get(`/menu/${id}`)
         if (response.data.status) {
           this.dataDetail = response.data.data
+          console.log('this.dataDetail', this.dataDetail);
+        }
+      } catch (error) {
+        console.error('error', error);
+      }
+    },
+
+    // get menu by category
+    async getByCategory(id) {
+      try {
+        const response = await axiosInstance.get(`/menu/category/${id}`)
+        console.log('response', response);
+        if (response.data.status) {
+          this.dataMenuByCategory = response.data.data
+          console.log('this.dataMenuByCategory', this.dataMenuByCategory);
         }
       } catch (error) {
         console.error('error', error);

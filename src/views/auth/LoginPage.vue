@@ -47,7 +47,6 @@
                   (v && v.length >= 4) ||
                   'Password must be less than 4 characters',
               ]"
-              density="compact"
             />
             <div class="text-end">
               <RouterLink class="text-decoration-none" to="">

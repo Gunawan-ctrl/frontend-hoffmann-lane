@@ -146,27 +146,19 @@ export default [
   // landing page
   {
     path: "/",
-    redirect: "/",
+    redirect: "/home",
     meta: {
       authLanding: true,
     },
     component: () => import("@/layouts/LandingLayout.vue"),
     children: [
       {
-        path: "/",
-        name: "index",
-        meta: {
-          title: "Home",
-        },
-        component: () => import("@/views/landing/IndexView.vue"),
-      },
-      {
         path: "/home",
         name: "home",
         meta: {
           title: "Home",
         },
-        component: () => import("@/views/landing/HomeView.vue"),
+        component: () => import("@/views/landing/IndexView.vue"),
       },
       {
         path: "/menu",
@@ -193,6 +185,14 @@ export default [
         },
         component: () => import("@/views/landing/ContactView.vue"),
       },
+      {
+        path: "/cart",
+        name: "cart",
+        meta: {
+          title: "Cart",
+        },
+        component: () => import("@/views/landing/CartView.vue"),
+      }
     ],
   }
 ]

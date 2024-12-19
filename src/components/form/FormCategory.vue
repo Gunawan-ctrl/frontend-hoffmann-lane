@@ -3,19 +3,15 @@
     <v-form @submit.prevent="addItem">
       <div class="text-subtitle-1 text-medium-emphasis">Name</div>
       <v-text-field
-        density="compact"
         placeholder="Masukkan product name anda"
         v-model="form.name"
-        variant="outlined"
       >
       </v-text-field>
 
       <div class="text-subtitle-1 text-medium-emphasis">Description</div>
       <v-text-field
-        density="compact"
         placeholder="Masukkan price"
         v-model="form.description"
-        variant="outlined"
       ></v-text-field>
 
       <div class="text-center">
@@ -51,12 +47,12 @@ const getData = async () => {
   form.value.description = categoryStore.dataDetail.description;
 };
 
-const addItem = () => {
+const addItem = async () => {
   if (route.name === "addCategory") {
-    categoryStore.create(form.value);
+    await categoryStore.create(form.value);
   }
   if (route.name === "editCategory") {
-    categoryStore.update(route.params.id, form.value);
+    await categoryStore.update(route.params.id, form.value);
   }
 };
 

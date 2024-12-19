@@ -32,7 +32,12 @@
               your plate!
             </div>
 
-            <v-btn class="text-none" color="btncolor" variant="elevated">
+            <v-btn
+              class="text-none"
+              color="btncolor"
+              variant="elevated"
+              @click="emit('goToMenu')"
+            >
               Our Menu
             </v-btn>
           </v-card-text>
@@ -42,4 +47,8 @@
   </v-card>
 </template>
 
-<script setup></script>
+<script setup>
+import { defineEmits } from "vue";
+
+const emit = defineEmits(["goToMenu"]);
+</script>

@@ -16,46 +16,46 @@
             <v-tabs
               v-model="tab"
               align-tabs="center"
-              color="primary"
+              color="background"
+              class="border-none"
               hide-slider
             >
-              <v-tab
-                height="40"
-                elevation="2"
-                variant="flat"
-                color="btncolor"
-                :value="1"
-                class="mr-2"
-              >
-                New Menu
-              </v-tab>
-              <v-tab
-                height="40"
-                elevation="2"
-                variant="flat"
-                color="btncolor"
-                :value="2"
-                class="mr-2"
-                >Snack</v-tab
-              >
-              <v-tab
-                height="40"
-                elevation="2"
-                variant="flat"
-                color="btncolor"
-                :value="3"
-              >
-                Coffee
-              </v-tab>
+              <v-row align="center" justify="center">
+                <v-col cols="12" md="12">
+                  <v-tab
+                    height="40"
+                    elevation="2"
+                    class="ma-1"
+                    variant="flat"
+                    color="btncolor"
+                    v-for="category in categoryStore.data"
+                    :key="category.id"
+                    :value="category.id"
+                    @click="getCategoryById(category.id)"
+                  >
+                    {{ category.name }}
+                  </v-tab>
+                </v-col>
+              </v-row>
             </v-tabs>
 
             <v-tabs-window v-model="tab">
-              <v-tabs-window-item v-for="n in 3" :key="n" :value="n">
-                <v-container fluid>
-                  <v-row>
-                    <v-col v-for="i in 6" :key="i" cols="12" sm="6" md="4">
+              <v-tabs-window-item
+                v-for="category in categoryStore.data"
+                :key="category.id"
+                :value="category.id"
+              >
+                <v-container fluid class="mx-md-2">
+                  <v-row align="center" justify="center">
+                    <v-col
+                      cols="12"
+                      sm="6"
+                      md="4"
+                      v-for="menu in menuStore.dataMenuByCategory"
+                      :key="menu.id"
+                    >
                       <v-card
-                        class="mx-auto text-center border-none"
+                        class="border-none"
                         elevation="2"
                         max-width="414"
                         height="288"
@@ -64,8 +64,7 @@
                       >
                         <v-img
                           class="mx-auto my-auto mt-8"
-                          lazy-src="/assets/image-1.png"
-                          src="/assets/image-1.png"
+                          :src="baseImageUrl + menu.upload_menu"
                           height="200"
                           width="300"
                           cover
@@ -73,10 +72,10 @@
                       </v-card>
                       <div class="text-start mx-8">
                         <p class="text-h6 mt-2 font-weight-bold">
-                          Kyoto Chicken Platters
+                          {{ menu.name }}
                         </p>
                         <p class="text-medium-emphasis text-caption">
-                          2 chicken wings, 1 upper and lower thigh.
+                          {{ menu.description }}
                         </p>
                       </div>
                     </v-col>
@@ -104,7 +103,33 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import { useCategoryStore } from "@/stores/categoryStore";
+import { useMenuStore } from "@/stores/menuStore";
 
-const tab = ref(1);
+const categoryStore = useCategoryStore();
+const menuStore = useMenuStore();
+
+const tab = ref(null);
+const baseImageUrl = import.meta.env.VITE_APP_IMAGE_URL;
+
+const getData = async () => {
+  await menuStore.getAll();
+  await categoryStore.getAll();
+  tab.value = categoryStore.data[0].id;
+  getCategoryDefault();
+};
+
+const getCategoryById = async (id) => {
+  console.log("id", id);
+  await menuStore.getByCategory(id);
+};
+
+const getCategoryDefault = async () => {
+  await getCategoryById(tab.value);
+};
+
+onMounted(() => {
+  getData();
+});
 </script>

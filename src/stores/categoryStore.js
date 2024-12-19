@@ -17,7 +17,6 @@ export const useCategoryStore = defineStore({
       this.loading = true
       try {
         const response = await axiosInstance.get('/category')
-        console.log('response', response);
         if (response.data.status) {
           this.option = response.data.data
           this.data = this.option.map((category, index) => ({
