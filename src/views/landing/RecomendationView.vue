@@ -14,10 +14,10 @@
             </div>
 
             <v-container fluid class="mx-md-2">
-              <v-row>
+              <v-row align="center" justify="center">
                 <v-col
-                  v-for="i in 6"
-                  :key="i"
+                  v-for="item in menuStore.dataRecomendation"
+                  :key="item.id"
                   cols="12"
                   sm="6"
                   md="4"
@@ -34,7 +34,7 @@
                     <v-img
                       class="mx-auto my-auto mt-8"
                       lazy-src="/assets/image-1.png"
-                      src="/assets/image-1.png"
+                      :src="baseImage + item.upload_menu"
                       height="200"
                       width="300"
                       cover
@@ -42,10 +42,10 @@
                   </v-card>
                   <div class="text-start mx-8">
                     <p class="text-h6 mt-2 font-weight-bold">
-                      Kyoto Chicken Platters
+                      {{ item.name }}
                     </p>
                     <p class="text-medium-emphasis text-caption">
-                      2 chicken wings, 1 upper and lower thigh.
+                      {{ item.description }}
                     </p>
                   </div>
                 </v-col>
@@ -57,3 +57,20 @@
     </v-row>
   </v-card>
 </template>
+
+<script setup>
+import { onMounted, ref } from "vue";
+import { useMenuStore } from "@/stores/menuStore";
+
+const menuStore = useMenuStore();
+
+const baseImage = ref(import.meta.env.VITE_APP_IMAGE_URL);
+
+const getData = async () => {
+  await menuStore.getRecomendation(true);
+};
+
+onMounted(() => {
+  getData();
+});
+</script>

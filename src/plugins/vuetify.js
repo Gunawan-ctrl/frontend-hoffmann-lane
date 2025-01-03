@@ -3,6 +3,8 @@ import theme from './theme'
 
 import "@mdi/font/css/materialdesignicons.css";
 import 'vuetify/styles'
+import { VNumberInput } from 'vuetify/labs/VNumberInput'
+
 // import { VFileUpload } from 'vuetify/labs/VFileUpload'
 
 // import { createApp } from "vue";
@@ -16,7 +18,10 @@ import * as directives from 'vuetify/directives'
 
 // const app = createApp();
 const vuetify = createVuetify({
-  components,
+  components: {
+    VNumberInput,
+    ...components
+  },
   theme,
   directives,
   defaults,

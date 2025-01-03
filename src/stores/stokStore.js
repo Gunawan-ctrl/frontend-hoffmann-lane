@@ -9,7 +9,10 @@ export const useStokStore = defineStore({
   state: () => ({
     data: [],
     dataDetail: {},
-    loading: false
+    loading: false,
+    btnLoading: false,
+    openDialog: false,
+    idActive: null
   }),
   actions: {
     async getAll() {
@@ -35,7 +38,6 @@ export const useStokStore = defineStore({
         const response = await axiosInstance.get(`/stok/${id}`)
         if (response.data.status) {
           this.dataDetail = response.data.data
-          console.log('this.dataDetail', this.dataDetail);
         }
       } catch (error) {
         console.error('error', error);
@@ -71,16 +73,25 @@ export const useStokStore = defineStore({
     },
 
     // delete stok
-    async delete(id) {
+    async delete() {
+      console.log('id');
       try {
-        const response = await axiosInstance.delete(`/stok/${id}`)
+        const response = await axiosInstance.delete(`/stok/${this.idActive}`)
         if (response.data.status) {
           notify.success(response.data.message)
           this.getAll()
+          this.resetDialog()
         }
+        console.log('response', response);
       } catch (error) {
         console.error('error', error);
       }
     },
+
+    resetDialog() {
+      this.openDialog = false
+      this.idActive = null
+
+    }
   }
 })

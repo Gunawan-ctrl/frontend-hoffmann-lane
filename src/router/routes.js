@@ -10,6 +10,9 @@ export default [
       {
         path: '/dashboard',
         name: 'dashboard',
+        meta: {
+          title: 'Dashboard',
+        },
         component: () => import('@/views/admin/DashboardView.vue'),
       },
       {

@@ -33,7 +33,6 @@ export default {
     density: 'compact',
   },
   VBtn: {
-    color: 'primary',
     class: 'text-none rounded-lg '
   },
   VCard: {

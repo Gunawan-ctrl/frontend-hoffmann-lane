@@ -49,6 +49,16 @@
         <span class="text-capitalize">{{ item.category.name }}</span>
       </template>
 
+      <template v-slot:[`item.status`]="{ item }">
+        <v-switch
+          class="pt-4"
+          density="compact"
+          color="primary"
+          v-model="item.status"
+          @change="emit(`updateStatus`, item)"
+        />
+      </template>
+
       <template v-slot:[`item.actions`]="{ item }">
         <div
           class="action-buttons d-flex justify-center align-center text-center"
@@ -137,6 +147,7 @@ const emit = defineEmits([
   "showDetail",
   "changePassword",
   "openImage",
+  "updateStatus",
 ]);
 
 const search = ref("");

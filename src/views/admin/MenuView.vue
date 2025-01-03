@@ -7,6 +7,7 @@
       @editItem="editItem"
       @deleteItem="deleteItem"
       @openImage="openDialogImage"
+      @updateStatus="updateStatus"
     />
 
     <v-dialog v-model="menuStore.dialogImage" width="auto">
@@ -36,6 +37,7 @@ const headers = ref([
   { title: "Category", key: "category" },
   { title: "Description", key: "description" },
   { title: "Price", key: "price" },
+  { title: "Recomendation", align: "center", key: "status" },
   { title: "Actions", key: "actions", sortable: false, align: "center" },
 ]);
 
@@ -49,6 +51,10 @@ const addItem = () => {
 
 const editItem = (id) => {
   router.push({ name: "editMenu", params: { id } });
+};
+
+const updateStatus = (item) => {
+  menuStore.updateStatus(item);
 };
 
 const openDialogImage = (id) => {

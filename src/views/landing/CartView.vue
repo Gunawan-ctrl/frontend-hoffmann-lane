@@ -1,5 +1,6 @@
 <template>
   <div class="mx-md-8 mt-4">
+    <div class="text-h5 font-weight-bold mb-4">Cart and Checkout</div>
     <v-row>
       <v-col cols="12" md="7">
         <v-card>
@@ -34,10 +35,32 @@
                   Categori : New Menu
                 </div>
 
-                <p class="font-weight-medium text-h5">Rp 50.000</p>
+                <div class="d-flex justify-space-between">
+                  <p class="font-weight-medium text-h5">Rp 50.000</p>
+                  <v-row justify="end">
+                    <v-col cols="6">
+                      <v-number-input
+                        control-variant="split"
+                        :min="1"
+                        variant="outlined"
+                        :model-value="1"
+                        inset
+                      ></v-number-input>
+                    </v-col>
+                  </v-row>
+                </div>
               </v-card-text>
             </v-col>
           </v-row>
+          <v-card class="border-none mx-4">
+            <div class="text-subtitle-1 text-uppercase">Add Comment</div>
+            <v-text-field
+              density="compact"
+              v-model="form.name"
+              variant="outlined"
+            >
+            </v-text-field>
+          </v-card>
         </v-card>
       </v-col>
       <v-col>
@@ -70,4 +93,9 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+const form = ref({
+  name: "",
+});
+</script>

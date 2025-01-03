@@ -8,7 +8,10 @@ export const useUserStore = defineStore({
   id: 'user',
   state: () => ({
     data: [],
-    dataDetail: {}
+    dataDetail: {},
+    openDialog: false,
+    idActive: null,
+    btnLoading: false
   }),
   actions: {
     async login(form) {
@@ -29,14 +32,18 @@ export const useUserStore = defineStore({
 
     // register
     async register(form) {
+      this.btnLoading = true
       try {
         const response = await axiosInstance.post('/user/register', form)
         if (response.data.status) {
           notify.success(response.data.message)
           this.getAll()
+
         }
       } catch (error) {
         notify.commonError(), console.error('error', error);
+      } finally {
+        this.btnLoading = false
       }
     },
 
@@ -83,15 +90,26 @@ export const useUserStore = defineStore({
 
     // delete user
     async deleteOne(id) {
+      this.btnLoading = true
       try {
         const response = await axiosInstance.delete(`/user/${id}`)
         if (response.data.status) {
           notify.success(response.data.message)
           this.getAll()
+          this.resetDialog()
         }
       } catch (error) {
         notify.commonError(), console.log('error', error);
+      } finally {
+        this.btnLoading = false
       }
+    },
+
+    // reset dialog
+    resetDialog() {
+      this.openDialog = false
+      this.idActive = null
+
     }
   }
 })

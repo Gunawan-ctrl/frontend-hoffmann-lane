@@ -10,6 +10,7 @@ export const useMenuStore = defineStore({
     data: [],
     dataDetail: {},
     dataMenuByCategory: [],
+    dataRecomendation: [],
     dialogImage: false,
     idActive: null,
   }),
@@ -23,6 +24,21 @@ export const useMenuStore = defineStore({
             no: index + 1
           }))
         }
+      } catch (error) {
+        console.error('error', error);
+      }
+    },
+
+    // get by status active
+    async getRecomendation(status) {
+      try {
+        const response = await axiosInstance.get('/menu', {
+          params: {
+            status: status
+          }
+        })
+        this.dataRecomendation = response.data.data.data
+        console.log('response recomendation', this.dataRecomendation);
       } catch (error) {
         console.error('error', error);
       }
@@ -87,6 +103,20 @@ export const useMenuStore = defineStore({
           notify.success(response.data.message)
           this.getAll()
           router.push({ name: 'ourmenu' })
+        }
+      } catch (error) {
+        console.error('error', error);
+      }
+    },
+
+    // update menu status
+    async updateStatus(item) {
+      console.log('id, status', item.id, item.status);
+      try {
+        const response = await axiosInstance.patch(`/menu/${item.id}`, { status: item.status })
+        if (response.data.status) {
+          notify.success(response.data.message)
+          this.getAll()
         }
       } catch (error) {
         console.error('error', error);

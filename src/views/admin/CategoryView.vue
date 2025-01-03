@@ -8,6 +8,16 @@
       @editItem="editItem"
       @deleteItem="deleteItem"
     />
+
+    <DialogAksi
+      v-model="categoryStore.openDialog"
+      title="Hapus Data"
+      subtitle="Apakah anda yakin mau menghapus data ini"
+      btnSubmit="Hapus"
+      @cancel="categoryStore.resetDialog"
+      :btnloading="categoryStore.btnLoading"
+      @submit="confirmSubmit"
+    />
   </div>
 </template>
 
@@ -15,6 +25,7 @@
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import DataTable from "@/components/DataTable.vue";
+import DialogAksi from "@/components/dialog/DialogAksi.vue";
 import { useCategoryStore } from "@/stores/categoryStore";
 
 const categoryStore = useCategoryStore();
@@ -48,7 +59,13 @@ const editItem = (id) => {
 };
 
 const deleteItem = (id) => {
-  categoryStore.delete(id);
+  categoryStore.openDialog = true;
+  categoryStore.idActive = id;
+  // categoryStore.delete(id);
+};
+
+const confirmSubmit = () => {
+  categoryStore.delete(categoryStore.idActive);
 };
 
 onMounted(() => {

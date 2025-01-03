@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+  <div>
     <data-table
       :Headers="headers"
       :data="stokStore.data"
@@ -8,12 +8,22 @@
       @editItem="editItem"
       @deleteItem="deleteItem"
     />
+    <DialogAksi
+      v-model="stokStore.openDialog"
+      title="Hapus Data"
+      subtitle="Apakah anda yakin mau menghapus data ini"
+      btnSubmit="Hapus"
+      @cancel="stokStore.resetDialog"
+      :btnloading="stokStore.btnLoading"
+      @submit="confirmSubmit"
+    />
   </div>
 </template>
 
 <script setup>
 import { onMounted, ref } from "vue";
 import DataTable from "@/components/DataTable.vue";
+import DialogAksi from "@/components/dialog/DialogAksi.vue";
 import { useStokStore } from "@/stores/stokStore";
 import { useRouter } from "vue-router";
 
@@ -37,40 +47,25 @@ const getData = async () => {
   await stokStore.getAll();
 };
 
-// const stokWithNumber = ref([]);
-
-// const updateUsersWithNumber = async () => {
-//   setTimeout(() => {
-//     stokWithNumber.value = stokStore.stoks.map((user, index) => ({
-//       ...user,
-//       number: index + 1,
-//     }));
-//   }, 100);
-// };
-
 const addItem = () => {
   router.push({ name: "addInventory" });
 };
 
 const editItem = (id) => {
-  console.log(id);
   router.push({ name: "editInventory", params: { id } });
 };
 
 const deleteItem = (id) => {
-  console.log(id);
-  stokStore.delete(id);
+  console.log("id");
+  stokStore.openDialog = true;
+  stokStore.idActive = id;
+};
+
+const confirmSubmit = () => {
+  stokStore.delete(stokStore.idActive);
 };
 
 onMounted(() => {
   getData();
 });
-
-// watch(
-//   () => stokStore.stoks,
-//   () => {
-//     updateUsersWithNumber();
-//   },
-//   { immediate: true }
-// );
 </script>

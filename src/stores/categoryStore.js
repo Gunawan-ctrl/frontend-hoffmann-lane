@@ -10,7 +10,10 @@ export const useCategoryStore = defineStore({
     data: [],
     dataDetail: {},
     option: [],
-    loading: false
+    loading: false,
+    openDialog: false,
+    idActive: null,
+    btnLoading: false
   }),
   actions: {
     async getAll() {
@@ -79,6 +82,7 @@ export const useCategoryStore = defineStore({
         if (response.data.status) {
           notify.success(response.data.message)
           this.getAll()
+          router.push({ name: 'category' })
         }
       } catch (error) {
         console.error('error', error);

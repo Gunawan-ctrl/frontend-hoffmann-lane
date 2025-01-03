@@ -9,12 +9,23 @@
       @deleteItem="deleteItem"
       @changePassword="changePassword"
     />
+
+    <DialogAksi
+      v-model="userStore.openDialog"
+      title="Hapus Data"
+      subtitle="Apakah anda yakin mau menghapus data ini"
+      btnSubmit="Hapus"
+      @cancel="userStore.resetDialog"
+      :btnloading="userStore.btnLoading"
+      @submit="confirmSubmit"
+    />
   </div>
 </template>
 
 <script setup>
 import { onMounted, ref } from "vue";
 import DataTable from "@/components/DataTable.vue";
+import DialogAksi from "@/components/dialog/DialogAksi.vue";
 import { useUserStore } from "@/stores/userStore";
 import { useRouter } from "vue-router";
 
@@ -53,7 +64,12 @@ const editItem = (id) => {
 const changePassword = () => {};
 
 const deleteItem = (id) => {
-  userStore.deleteOne(id);
+  userStore.openDialog = true;
+  userStore.idActive = id;
+};
+
+const confirmSubmit = () => {
+  userStore.deleteOne(userStore.idActive);
 };
 
 onMounted(() => {
