@@ -16,7 +16,8 @@ export const useUserStore = defineStore({
   actions: {
     async login(form) {
       try {
-        const response = await axiosInstance.post('/user/login', form)
+        const response = await axiosInstance.post('/users/login', form)
+        console.log('response', response);
         if (response.data?.data?.role === 1) {
           localStorage.setItem('dataUser', JSON.stringify(response.data.data))
           notify.success(response.data.message)
@@ -34,7 +35,7 @@ export const useUserStore = defineStore({
     async register(form) {
       this.btnLoading = true
       try {
-        const response = await axiosInstance.post('/user/register', form)
+        const response = await axiosInstance.post('/users/register', form)
         if (response.data.status) {
           notify.success(response.data.message)
           this.getAll()
@@ -50,7 +51,7 @@ export const useUserStore = defineStore({
     // get user
     async getAll() {
       try {
-        const response = await axiosInstance.get('/user')
+        const response = await axiosInstance.get('/users')
         if (response.data.status) {
           this.data = response.data.data.map((user, index) => ({
             ...user,
@@ -65,7 +66,7 @@ export const useUserStore = defineStore({
     // get user by id
     async getById(id) {
       try {
-        const response = await axiosInstance.get(`/user/${id}`)
+        const response = await axiosInstance.get(`/users/${id}`)
         if (response.data.status) {
           this.dataDetail = response.data.data
         }
@@ -77,7 +78,7 @@ export const useUserStore = defineStore({
     // update user
     async update(id, form) {
       try {
-        const response = await axiosInstance.put(`/user/${id}`, form)
+        const response = await axiosInstance.put(`/users/${id}`, form)
         if (response.data.status) {
           notify.success(response.data.message)
           router.push({ name: 'administrator' })
@@ -92,7 +93,7 @@ export const useUserStore = defineStore({
     async deleteOne(id) {
       this.btnLoading = true
       try {
-        const response = await axiosInstance.delete(`/user/${id}`)
+        const response = await axiosInstance.delete(`/users/${id}`)
         if (response.data.status) {
           notify.success(response.data.message)
           this.getAll()

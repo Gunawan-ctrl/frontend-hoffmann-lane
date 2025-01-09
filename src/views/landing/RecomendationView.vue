@@ -67,7 +67,7 @@ const menuStore = useMenuStore();
 const baseImage = ref(import.meta.env.VITE_APP_IMAGE_URL);
 
 const getData = async () => {
-  await menuStore.getRecomendation(true);
+  await menuStore.getRecomendation();
 };
 
 onMounted(() => {

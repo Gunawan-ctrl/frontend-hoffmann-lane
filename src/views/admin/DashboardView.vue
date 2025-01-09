@@ -188,4 +188,8 @@ const data = ref([
     icon: "mdi-cart-arrow-down",
   },
 ]);
+
+const reserve = () => {
+  console.log("reserve");
+};
 </script>

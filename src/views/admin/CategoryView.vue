@@ -61,7 +61,6 @@ const editItem = (id) => {
 const deleteItem = (id) => {
   categoryStore.openDialog = true;
   categoryStore.idActive = id;
-  // categoryStore.delete(id);
 };
 
 const confirmSubmit = () => {

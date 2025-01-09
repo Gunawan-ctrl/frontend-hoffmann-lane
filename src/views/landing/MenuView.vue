@@ -121,7 +121,6 @@ const getData = async () => {
 };
 
 const getCategoryById = async (id) => {
-  console.log("id", id);
   await menuStore.getByCategory(id);
 };
 

@@ -19,26 +19,18 @@ export const useMenuStore = defineStore({
       try {
         const response = await axiosInstance.get('/menu')
         if (response.data.status) {
-          this.data = response.data.data.data.map((menu, index) => ({
+          this.data = response.data.data.map((menu, index) => ({
             ...menu,
             no: index + 1
           }))
         }
-      } catch (error) {
-        console.error('error', error);
-      }
-    },
-
-    // get by status active
-    async getRecomendation(status) {
-      try {
-        const response = await axiosInstance.get('/menu', {
-          params: {
-            status: status
+        response.data.data.map(item => {
+          if (item.status === true) {
+            this.dataRecomendation.push(item)
+            console.log('this.dataRecomendation', this.dataRecomendation);
           }
-        })
-        this.dataRecomendation = response.data.data.data
-        console.log('response recomendation', this.dataRecomendation);
+        }
+        )
       } catch (error) {
         console.error('error', error);
       }
@@ -50,7 +42,6 @@ export const useMenuStore = defineStore({
         const response = await axiosInstance.get(`/menu/${id}`)
         if (response.data.status) {
           this.dataDetail = response.data.data
-          console.log('this.dataDetail', this.dataDetail);
         }
       } catch (error) {
         console.error('error', error);
@@ -61,7 +52,6 @@ export const useMenuStore = defineStore({
     async getByCategory(id) {
       try {
         const response = await axiosInstance.get(`/menu/category/${id}`)
-        console.log('response', response);
         if (response.data.status) {
           this.dataMenuByCategory = response.data.data
           console.log('this.dataMenuByCategory', this.dataMenuByCategory);
@@ -71,8 +61,21 @@ export const useMenuStore = defineStore({
       }
     },
 
+    // get menu recomendation
+    async getRecomendation() {
+      try {
+        const response = await axiosInstance.get('/menu/status/1')
+        if (response.data.status) {
+          this.dataRecomendation = response.data.data
+        }
+      } catch (error) {
+        console.error('error', error);
+      }
+    },
+
     // create new menu
     async create(payload) {
+      console.log('payload', payload);
       try {
         const response = await axiosInstance.post('/menu', payload, {
           headers: {
@@ -85,13 +88,12 @@ export const useMenuStore = defineStore({
           router.push({ name: 'ourmenu' })
         }
       } catch (error) {
-        console.error('error', error);
+        notify.error(error.response.data.message)
       }
     },
 
     // update menu
     async update(id, payload) {
-      console.log('id,payload', id, payload);
       try {
         const response = await axiosInstance.put(`/menu/${id}`, payload, {
           headers: {
@@ -111,7 +113,7 @@ export const useMenuStore = defineStore({
 
     // update menu status
     async updateStatus(item) {
-      console.log('id, status', item.id, item.status);
+      console.log('item', item);
       try {
         const response = await axiosInstance.patch(`/menu/${item.id}`, { status: item.status })
         if (response.data.status) {
