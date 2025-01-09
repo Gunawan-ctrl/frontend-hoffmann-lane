@@ -40,7 +40,6 @@ export const useCategoryStore = defineStore({
         const response = await axiosInstance.get(`/category/${id}`)
         if (response.data.status) {
           this.dataDetail = response.data.data
-          console.log('this.dataDetail', this.dataDetail);
         }
       } catch (error) {
         console.error('error', error);
@@ -81,12 +80,20 @@ export const useCategoryStore = defineStore({
         const response = await axiosInstance.delete(`/category/${id}`)
         if (response.data.status) {
           notify.success(response.data.message)
+
           this.getAll()
+          this.resetDialog()
           router.push({ name: 'category' })
         }
       } catch (error) {
         console.error('error', error);
       }
+    },
+
+    resetDialog() {
+      this.openDialog = false
+      this.idActive = null
+
     }
   }
 })

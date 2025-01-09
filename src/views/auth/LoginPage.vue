@@ -25,7 +25,7 @@
         <v-form v-model="valid" @submit.prevent="login">
           <v-card-text class="py-4">
             <v-text-field
-              v-model="form.email"
+              v-model="form.identifier"
               type="email"
               :rules="[
                 (v) => !!v || 'E-mail is required',
@@ -87,7 +87,7 @@ const userStore = useUserStore();
 
 // state
 const form = ref({
-  email: "",
+  identifier: "",
   password: "",
 });
 const loading = ref(false);

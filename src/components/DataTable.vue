@@ -48,6 +48,9 @@
       <template v-slot:[`item.category`]="{ item }">
         <span class="text-capitalize">{{ item.category.name }}</span>
       </template>
+      <!-- <template v-slot:[`item.description`]="{ item }">
+        <span class="text-capitalize">{{ item.category.description }}</span>
+      </template> -->
 
       <template v-slot:[`item.status`]="{ item }">
         <v-switch

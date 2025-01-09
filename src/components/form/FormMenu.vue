@@ -14,7 +14,7 @@
       <v-select
         density="compact"
         :items="categoryStore.option"
-        v-model="form.IDKategori"
+        v-model="form.idKategori"
         item-title="name"
         item-value="id"
         variant="outlined"
@@ -75,19 +75,19 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import { useCategoryStore } from "@/stores/categoryStore";
 import { useMenuStore } from "@/stores/menuStore";
 
 const categoryStore = useCategoryStore();
 const route = useRoute();
-const router = useRouter();
 const menuStore = useMenuStore();
 const form = ref({
   name: "",
   description: "",
-  price: "",
-  IDKategori: "",
+  price: null,
+  idKategori: null,
+  status: false,
 });
 const upload_menu = ref(null);
 
@@ -96,22 +96,23 @@ const getData = async () => {
   if (route.name === "editMenu") {
     await menuStore.getById(route.params.id);
     form.value = menuStore.dataDetail;
+    form.value.idKategori = menuStore.dataDetail.category.idKategori;
+    console.log("form.value", form.value);
   }
 };
 const addItem = () => {
   const formData = new FormData();
+  formData.append("upload_menu", upload_menu.value);
   formData.append("name", form.value.name);
   formData.append("description", form.value.description);
   formData.append("price", form.value.price);
-  formData.append("IDKategori", form.value.IDKategori);
-  formData.append("upload_menu", upload_menu.value);
-
+  formData.append("idKategori", form.value.idKategori);
+  formData.append("status", form.value.status);
   if (route.name === "editMenu") {
     menuStore.update(route.params.id, formData);
   }
   if (route.name === "addMenu") {
     menuStore.create(formData);
-    router.push({ name: "menu" });
   }
 };
 
