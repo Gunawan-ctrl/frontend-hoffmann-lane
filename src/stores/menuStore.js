@@ -11,6 +11,7 @@ export const useMenuStore = defineStore({
     dataDetail: {},
     dataMenuByCategory: [],
     dataRecomendation: [],
+    recomendation: [],
     dialogImage: false,
     idActive: null,
   }),
@@ -66,7 +67,7 @@ export const useMenuStore = defineStore({
       try {
         const response = await axiosInstance.get('/menu/status/1')
         if (response.data.status) {
-          this.dataRecomendation = response.data.data
+          this.recomendation = response.data.data
         }
       } catch (error) {
         console.error('error', error);

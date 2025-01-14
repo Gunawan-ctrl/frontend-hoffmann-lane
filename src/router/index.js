@@ -15,7 +15,10 @@ router.beforeEach((to, from, next) => {
     : "404 Not Found - Hoffmann Lane";
 
   const dataUser = JSON.parse(localStorage.getItem("dataUser"));
+  // console.log('dataUser.role', dataUser.role);
   const noSession = dataUser === null || dataUser === "undefined";
+  const roleAdmin = dataUser?.role === 1;
+  const roleUser = dataUser?.role === 2;
 
   if (to.matched.some((record) => record.meta.authAdmin)) {
     if (noSession) {
@@ -23,13 +26,21 @@ router.beforeEach((to, from, next) => {
         name: "login",
       });
     } else {
-      next();
+      if (roleAdmin) {
+        next();
+      } else {
+        next({ name: "login", });
+      }
     }
   } else if (to.matched.some((record) => record.meta.authLanding)) {
     if (noSession) {
       next();
     } else {
-      next({ name: "login" });
+      if (roleUser) {
+        next();
+      } else {
+        next({ name: "login" });
+      }
     }
   }
   else if (to.matched.some((record) => record.meta.guestPage)) {
@@ -38,6 +49,9 @@ router.beforeEach((to, from, next) => {
     } else {
       next({ name: "dashboard" });
     }
+  }
+  else {
+    next();
   }
 });
 

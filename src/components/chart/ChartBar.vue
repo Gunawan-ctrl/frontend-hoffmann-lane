@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 const props = defineProps({
   data: {
     type: Array,
@@ -41,8 +41,4 @@ const series = ref([
     data: props.data.map((item) => item.value),
   },
 ]);
-
-onMounted(() => {
-  console.log("props.data", props.data);
-});
 </script>

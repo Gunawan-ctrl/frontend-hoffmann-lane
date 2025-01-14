@@ -8,6 +8,7 @@ export const useUserStore = defineStore({
   id: 'user',
   state: () => ({
     data: [],
+    customer: [],
     dataDetail: {},
     openDialog: false,
     idActive: null,
@@ -17,14 +18,15 @@ export const useUserStore = defineStore({
     async login(form) {
       try {
         const response = await axiosInstance.post('/users/login', form)
-        console.log('response', response);
+        localStorage.setItem('dataUser', JSON.stringify(response.data.data))
         if (response.data?.data?.role === 1) {
-          localStorage.setItem('dataUser', JSON.stringify(response.data.data))
           notify.success(response.data.message)
           await new Promise((resolve) => setTimeout(resolve, 1000))
           router.push({ name: 'dashboard' })
         } else {
-          notify.error(response.data.message)
+          notify.success(response.data.message)
+          router.push({ name: 'home' })
+          // await new Promise((resolve) => setTimeout(resolve, 1000))
         }
       } catch (error) {
         notify.commonError(), console.log('error', error);
@@ -57,6 +59,7 @@ export const useUserStore = defineStore({
             ...user,
             no: index + 1
           }))
+          this.customer = response.data.data.filter((user) => user.role === 2)
         }
       } catch (error) {
         console.error('error', error);
