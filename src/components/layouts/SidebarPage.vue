@@ -38,6 +38,17 @@
       </v-list-item>
 
       <v-list-subheader style="font-size: 14px" class="text-black">
+        TRANSAKSI
+      </v-list-subheader>
+      <v-list-item
+        title="Transaksi"
+        prepend-icon="mdi-swap-horizontal"
+        value="transaction"
+        :to="{ name: 'transaction' }"
+      >
+      </v-list-item>
+
+      <v-list-subheader style="font-size: 14px" class="text-black">
         MENU & STOK
       </v-list-subheader>
       <v-list-item

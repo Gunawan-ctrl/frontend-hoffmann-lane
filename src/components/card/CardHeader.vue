@@ -40,26 +40,3 @@ const props = defineProps({
   },
 });
 </script>
-
-<!-- <script>
-export default {
-  props: {
-    title: {
-      type: String,
-      default: "",
-    },
-    subtitle: {
-      type: String,
-      default: "",
-    },
-    value: {
-      type: Number,
-      default: 0,
-    },
-    icon: {
-      type: String,
-      default: "",
-    },
-  },
-};
-</script> -->

@@ -21,22 +21,43 @@
       </v-tabs>
       <v-spacer />
 
-      <v-btn
-        density="default"
-        icon="mdi-cart"
-        variant="text"
-        size="large"
-        class="mr-4"
-        @click="goToCart"
-      />
-      <v-btn
-        class="text-none mr-2"
-        color="btncolor"
-        variant="elevated"
-        @click="login"
-      >
-        Sign In
+      <v-btn @click="goToCart" stacked>
+        <v-badge color="btncolor" :content="orderStore?.dataOrder?.length">
+          <v-icon icon="mdi-cart" color="btncolor"></v-icon>
+        </v-badge>
       </v-btn>
+
+      <div v-if="!dataUser">
+        <v-btn
+          class="text-none mr-2"
+          color="btncolor"
+          variant="elevated"
+          @click="login"
+        >
+          Sign In
+        </v-btn>
+      </div>
+      <v-list-item v-else>
+        <template #prepend>
+          <v-list-item-action start>
+            <v-badge
+              dot
+              location="bottom right"
+              offset-x="3"
+              offset-y="3"
+              color="success"
+            >
+              <v-avatar color="primary" variant="tonal">
+                <v-icon>mdi-account-circle</v-icon>
+              </v-avatar>
+            </v-badge>
+          </v-list-item-action>
+        </template>
+        <v-list-item-title class="font-semibold">
+          {{ dataUser?.username }}
+        </v-list-item-title>
+      </v-list-item>
+
       <v-app-bar-nav-icon
         v-if="!$vuetify.display.mdAndUp"
         variant="text"
@@ -52,7 +73,6 @@
       offset="1px"
     >
       <v-list>
-        <!-- <v-list :item="items"></v-list> -->
         <v-list-item :to="{ name: 'home' }">
           <template #prepend>
             <v-icon icon="mdi-home-outline" />
@@ -86,15 +106,15 @@
   </v-app>
 </template>
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref, onBeforeMount } from "vue";
 import { useRouter } from "vue-router";
+import { useOrderStore } from "@/stores/orderStore";
 
 const router = useRouter();
+const orderStore = useOrderStore();
 
 const drawer = ref(false);
-// const items = [{
-//   menu: 'Home'
-// }];
+const dataUser = JSON.parse(localStorage.getItem("dataUser"));
 
 const goToCart = () => {
   router.push({ name: "cart" });
@@ -102,4 +122,16 @@ const goToCart = () => {
 const login = () => {
   router.push({ name: "login" });
 };
+
+const getData = async () => {
+  await orderStore.getByIdUser(dataUser.id_user);
+};
+
+onMounted(async () => {
+  await getData();
+});
+
+onBeforeMount(() => {
+  getData();
+});
 </script>

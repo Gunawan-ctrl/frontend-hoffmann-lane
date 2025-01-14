@@ -40,6 +40,14 @@ export default [
         component: () => import('@/views/admin/EditAdministratorView.vue'),
       },
       {
+        path: '/transaction',
+        name: 'transaction',
+        meta: {
+          title: 'Transaction',
+        },
+        component: () => import('@/views/admin/TransactionView.vue'),
+      },
+      {
         path: '/inventory',
         name: 'inventory',
         meta: {

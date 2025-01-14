@@ -1,5 +1,5 @@
 <template>
-  <v-card class="border-none" id="contact">
+  <v-card class="border-none mt-4" id="contact">
     <v-row no-gutters>
       <v-col cols="12">
         <v-card
@@ -22,7 +22,7 @@
                     cover
                   ></v-img>
                   <div
-                    class="font-weight-bold text-overline"
+                    class="font-weight-bold text-overline font"
                     style="font-size: 50px"
                   >
                     “Human Habitat”
@@ -78,3 +78,16 @@
     </v-row>
   </v-card>
 </template>
+
+<script setup></script>
+
+<style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@300;400;500;600;700;800;900&display=swap");
+
+.font {
+  font-family: "Inknut Antiqua", serif;
+  font-size: 1.5rem;
+  text-align: center;
+  margin-top: 1rem;
+}
+</style>
