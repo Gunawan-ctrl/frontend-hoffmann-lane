@@ -17,6 +17,7 @@ import DataTable from "@/components/DataTable.vue";
 import { useTransactionStore } from "@/stores/transactionStore";
 
 const transactionStore = useTransactionStore();
+
 const router = useRouter();
 const headers = ref([
   {
@@ -26,8 +27,12 @@ const headers = ref([
     key: "no",
     value: "no",
   },
-  { title: "Name", key: "name" },
-  { title: "Description", key: "description" },
+  { title: "Name", key: "username_transaction" },
+  { title: "Email", key: "email_transaction" },
+  { title: "Price", key: "total_price" },
+  { title: "Total", key: "gross_amount" },
+  { title: "Payment Type", key: "payment_type" },
+  { title: "Status", key: "transaction_status" },
   { title: "Actions", key: "actions", sortable: false, align: "center" },
 ]);
 

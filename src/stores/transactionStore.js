@@ -16,19 +16,18 @@ export const useTransactionStore = defineStore({
     async getAll() {
       try {
         const response = await axiosInstance.get('/transaction')
+        console.log('response', response);
         if (response.data.status) {
           this.data = response.data.data.map((transaction, index) => ({
             ...transaction,
             no: index + 1
           }))
-          console.log('this.data', this.data);
         }
       } catch (error) {
         console.error('error', error);
       }
     },
 
-    // get transaction by id user
     async getByIdUser(id) {
       try {
         const response = await axiosInstance.get(`/transaction/${id}`)
@@ -40,79 +39,58 @@ export const useTransactionStore = defineStore({
       }
     },
 
-    // create transaction
     async create(payload) {
+      console.log('payload', payload);
       try {
-        const response = await axiosInstance.post('/transaction/snap-token', payload)
-        console.log('response', response);
+        const response = await axiosInstance.post('/transaction', payload)
         if (response.data.status) {
-          notify.success(response.data.message)
-          const snapToken = response.data.data.token
+          const snapToken = response.data.data.snapToken
           window.snap.pay(snapToken, {
-            onSuccess: function (result) {
+            onSuccess: async (result) => {
               console.log('success', result);
-              notify.success('Transaction Success')
-
+              notify.success('Transaction Success');
             },
-            onPending: function (result) {
+            onPending: (result) => {
               console.log('pending', result);
-              notify.warning('Transaction Pending')
+              notify.warning('Transaction Pending');
             },
-            onError: function (result) {
+            onError: (result) => {
               console.log('error', result);
-              notify.error('Transaction Error')
+              notify.error('Transaction Error');
             },
-            onClose: function () {
+            onClose: () => {
               console.log('close');
             }
           })
         }
-        // const response = await axiosInstance.post('/transaction', payload)
-        // if (response.data.status) {
-        //   notify.success(response.data.message)
-        //   // this.snapToken()
-        // }
       } catch (error) {
         console.error('error', error);
       }
     },
 
-    // // snap token payment
-    // async snapToken(payload) {
-    //   try {
-    //     const response = await axiosInstance.post('/transaction/snap-token', payload)
-    //     if (response.data.status) {
-    //       const snapToken = response.data.data.token
-    //       window.snap.pay(snapToken, {
-    //         onSuccess: function (result) {
-    //           console.log('success', result);
-    //           notify.success('Transaction Success')
-    //         },
-    //         onPending: function (result) {
-    //           console.log('pending', result);
-    //           notify.warning('Transaction Pending')
-    //         },
-    //         onError: function (result) {
-    //           console.log('error', result);
-    //           notify.error('Transaction Error')
-    //         },
-    //         onClose: function () {
-    //           console.log('close');
-    //         }
-    //       })
-    //     }
-    //   } catch (error) {
-    //     console.error('error', error);
-    //   }
-    // },
-
-    // update transaction
     async update(payload) {
       try {
-        await axiosInstance.put(`/transaction/${payload.id}`, payload)
+        const response = await axiosInstance.put(`/transaction/${payload.order_id}`, {
+          status: payload.transaction_status,
+          payment_type: payload.payment_type
+        })
+        console.log('response', response);
       } catch (error) {
         console.error('error', error);
       }
     },
+
+    async deleteOrder(id) {
+      console.log('id', id);
+      try {
+        const response = await axiosInstance.delete(`/order/${id}`)
+        if (response.data.status) {
+          notify.success(response.data.message)
+          this.dataOrder = this.dataOrder.filter(transaction => transaction.id !== id);
+        }
+      } catch (error) {
+        console.error('error', error);
+      }
+    }
   }
 })

@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-md-8 mt-4">
+  <div class="mx-md-8 mt-8">
     <div class="text-h5 font-weight-bold mb-4">Cart and Checkout</div>
     <v-row>
       <v-col cols="12" md="7">
@@ -79,11 +79,11 @@
               </v-card-text>
             </v-col>
           </v-row>
-          <v-card class="border-none mx-4">
+          <v-card class="border-none mx-4 mt-4">
             <div class="text-subtitle-1 text-uppercase">Add Comment</div>
             <v-text-field
               density="compact"
-              v-model="form.name"
+              v-model="form.comment"
               variant="outlined"
             >
             </v-text-field>
@@ -91,18 +91,18 @@
         </v-card>
       </v-col>
       <v-col>
-        <v-card class="mx-auto">
+        <v-card>
           <v-card-text>
             <div class="text-h6 font-weight-black">PRICE SUMMARY (1 item)</div>
             <v-row>
-              <v-col cols="12" md="6">
+              <v-col cols="6">
                 <p class="my-3">Total</p>
                 <p class="my-3">Discount</p>
                 <p class="my-3">PPN 10%</p>
                 <p class="my-3">Subtotal</p>
               </v-col>
               <v-spacer></v-spacer>
-              <v-col cols="12" md="6" align="end">
+              <v-col cols="6" align="end">
                 <p class="my-3">{{ $formatCurrency(totalPrice) }}</p>
                 <p class="my-3">Rp 0</p>
                 <p class="my-3">{{ $formatCurrency(ppn) }}</p>
@@ -143,7 +143,7 @@ const dataUser = JSON.parse(localStorage.getItem("dataUser"));
 const baseImageUrl = import.meta.env.VITE_APP_IMAGE_URL;
 
 const form = ref({
-  name: "",
+  comment: "",
   qty: null,
 });
 
@@ -187,7 +187,9 @@ const checkout = async () => {
     const payload = {
       id_user: dataUser.id_user,
       id_order: orderStore.dataOrder.map((order) => order.id).join(","),
+      id_menu: orderStore.dataOrder.map((order) => order.menu.id).join(","),
       total_price: subtotal.value,
+      comment: form.value.comment,
     };
     await transactionStore.create(payload);
   } catch (error) {

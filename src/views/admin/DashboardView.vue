@@ -21,9 +21,11 @@ import CardHeader from "@/components/card/CardHeader.vue";
 import ChartBar from "@/components/chart/ChartBar.vue";
 import { useUserStore } from "@/stores/userStore";
 import { useStokStore } from "@/stores/stokStore";
+import { useTransactionStore } from "@/stores/transactionStore";
 
 const userStore = useUserStore();
 const stokStore = useStokStore();
+const transactionStore = useTransactionStore();
 
 const totalCustomer = computed(() => {
   return userStore.customer.length;
@@ -33,11 +35,16 @@ const totalStok = computed(() => {
   return stokStore.data.length;
 });
 
+const totalTransaction = computed(() => {
+  return transactionStore.data.length;
+});
+console.log("totalTransaction", totalTransaction);
+
 const data = ref([
   {
     title: "Total Transaction",
     subtitle: "Berisi semua data transaksi.",
-    value: 100,
+    value: totalTransaction,
   },
   {
     title: "Total Customer",
@@ -54,7 +61,7 @@ const data = ref([
   {
     title: "Total Revenue",
     subtitle: "Berisi semua data revenue.",
-    value: 400,
+    value: 4,
     icon: "mdi-cart-arrow-down",
   },
 ]);
@@ -62,6 +69,7 @@ const data = ref([
 const getData = async () => {
   await userStore.getAll();
   await stokStore.getAll();
+  await transactionStore.getAll();
 };
 
 onMounted(() => {

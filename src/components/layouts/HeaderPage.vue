@@ -41,13 +41,6 @@
           </v-list-item>
           <v-divider class="my-2 font-semibold" />
 
-          <v-list-item value="profile">
-            <template #prepend>
-              <v-icon icon="mdi-account-outline" />
-            </template>
-            <v-list-item-title> Profile </v-list-item-title>
-          </v-list-item>
-
           <v-list-item link @click="logout()">
             <template #prepend>
               <v-icon icon="mdi-cancel" />
