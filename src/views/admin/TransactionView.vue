@@ -33,7 +33,6 @@ const headers = ref([
   { title: "Total", key: "gross_amount" },
   { title: "Payment Type", key: "payment_type" },
   { title: "Status", key: "transaction_status" },
-  { title: "Actions", key: "actions", sortable: false, align: "center" },
 ]);
 
 const getData = async () => {

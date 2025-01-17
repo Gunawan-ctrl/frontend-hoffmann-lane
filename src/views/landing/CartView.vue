@@ -4,11 +4,7 @@
     <v-row>
       <v-col cols="12" md="7">
         <v-card>
-          <v-row
-            no-gutters
-            v-for="order in orderStore.dataOrder"
-            :key="order.id"
-          >
+          <v-row no-gutters v-for="cart in cartStore.dataCart" :key="cart.id">
             <v-col cols="12" sm="6" md="5">
               <v-card
                 class="ml-4 my-8 text-center border-none"
@@ -21,7 +17,7 @@
                 <v-img
                   class="mx-auto my-auto"
                   lazy-src="/assets/image-1.png"
-                  :src="baseImageUrl + order.menu.upload_menu"
+                  :src="baseImageUrl + cart.menu.upload_menu"
                   height="200"
                   width="200"
                 ></v-img>
@@ -31,14 +27,14 @@
               <v-card-text class="my-8">
                 <div class="d-flex justify-space-between">
                   <p class="font-weight-black text-h6">
-                    {{ order.menu.name }}
+                    {{ cart.menu.name }}
                   </p>
                   <v-row justify="end">
                     <v-col align="end">
                       <v-btn
                         icon
                         variant="text"
-                        @click="deleteOrder(order.id)"
+                        @click="deleteCart(cart.id)"
                         class="mr-4"
                         color="red"
                       >
@@ -49,16 +45,16 @@
                 </div>
 
                 <div class="font-weight-medium my-2">
-                  {{ order.menu.description }}
+                  {{ cart.menu.description }}
                 </div>
 
                 <div class="text-medium-emphasis mt-4 mb-8">
-                  Categories : {{ order.menu.category.name }}
+                  Categories : {{ cart.menu.category.name }}
                 </div>
 
                 <div class="d-flex justify-space-between">
                   <p class="font-weight-medium text-h5">
-                    {{ $formatCurrency(order.menu.price * order.qty) }}
+                    {{ $formatCurrency(cart.menu.price * cart.qty) }}
                   </p>
                   <v-row justify="end">
                     <v-col cols="6">
@@ -66,11 +62,11 @@
                         control-variant="split"
                         :min="1"
                         variant="outlined"
-                        :model-value="order.qty"
+                        :model-value="cart.qty"
                         inset
                         @update:model-value="
                           (newQty) =>
-                            updateOrderQty({ ...order, qty: parseInt(newQty) })
+                            updateCartQty({ ...cart, qty: parseInt(newQty) })
                         "
                       ></v-number-input>
                     </v-col>
@@ -91,41 +87,67 @@
         </v-card>
       </v-col>
       <v-col>
-        <v-card>
-          <v-card-text>
-            <div class="text-h6 font-weight-black">PRICE SUMMARY (1 item)</div>
-            <v-row>
-              <v-col cols="6">
-                <p class="my-3">Total</p>
-                <p class="my-3">Discount</p>
-                <p class="my-3">PPN 10%</p>
-                <p class="my-3">Subtotal</p>
-              </v-col>
-              <v-spacer></v-spacer>
-              <v-col cols="6" align="end">
-                <p class="my-3">{{ $formatCurrency(totalPrice) }}</p>
-                <p class="my-3">Rp 0</p>
-                <p class="my-3">{{ $formatCurrency(ppn) }}</p>
-                <p class="my-3">{{ $formatCurrency(subtotal) }}</p>
-              </v-col>
-            </v-row>
+        <v-form v-model="valid" @submit.prevent="checkout">
+          <v-card>
+            <v-card-text>
+              <div class="text-h6 font-weight-black">
+                PRICE SUMMARY (1 item)
+              </div>
+              <v-row>
+                <v-col cols="6">
+                  <p class="my-3">Total</p>
+                  <!-- <p class="my-3">Discount</p> -->
+                  <p class="my-3">PPN 10%</p>
+                  <p class="my-3">Subtotal</p>
+                </v-col>
+                <v-spacer></v-spacer>
+                <v-col cols="6" align="end">
+                  <p class="my-3">{{ $formatCurrency(totalPrice) }}</p>
+                  <!-- <p class="my-3">Rp 0</p> -->
+                  <p class="my-3">{{ $formatCurrency(ppn) }}</p>
+                  <p class="my-3">{{ $formatCurrency(subtotal) }}</p>
+                </v-col>
+                <v-col>
+                  <v-text-field
+                    density="compact"
+                    type="number"
+                    v-model="form.no_telp"
+                    placeholder="No Telp"
+                    variant="outlined"
+                    :rules="[(v) => !!v || 'No Telp tidak boleh kosong']"
+                    required
+                  >
+                  </v-text-field>
+                  <v-text-field
+                    density="compact"
+                    v-model="form.alamat"
+                    placeholder="Alamat"
+                    variant="outlined"
+                    :rules="[(v) => !!v || 'Alamat tidak boleh kosong']"
+                    required
+                  >
+                  </v-text-field>
+                </v-col>
+              </v-row>
 
-            <div class="text-medium-emphasis mt-4">
-              The prices above include shipping costs
-            </div>
-          </v-card-text>
-        </v-card>
-        <div class="mt-4">
-          <v-btn
-            variant="outlined"
-            block
-            class="text-capitalize font-weight-bold text-black"
-            color="grey"
-            @click="checkout"
-          >
-            checkout
-          </v-btn>
-        </div>
+              <div class="text-medium-emphasis mt-4">
+                The prices above include shipping costs
+              </div>
+            </v-card-text>
+          </v-card>
+          <div class="mt-4">
+            <v-btn
+              variant="outlined"
+              block
+              class="text-capitalize font-weight-bold text-black"
+              color="grey"
+              type="submit"
+              :disabled="!valid"
+            >
+              checkout
+            </v-btn>
+          </div>
+        </v-form>
       </v-col>
     </v-row>
   </div>
@@ -133,11 +155,13 @@
 
 <script setup>
 import { ref, onMounted, computed } from "vue";
+import { useCartStore } from "@/stores/cartStore";
 import { useOrderStore } from "@/stores/orderStore";
-import { useTransactionStore } from "@/stores/transactionStore";
+// import { useTransactionStore } from "@/stores/transactionStore";
 
+const cartStore = useCartStore();
 const orderStore = useOrderStore();
-const transactionStore = useTransactionStore();
+// const transactionStore = useTransactionStore();
 
 const dataUser = JSON.parse(localStorage.getItem("dataUser"));
 const baseImageUrl = import.meta.env.VITE_APP_IMAGE_URL;
@@ -145,32 +169,36 @@ const baseImageUrl = import.meta.env.VITE_APP_IMAGE_URL;
 const form = ref({
   comment: "",
   qty: null,
+  no_telp: "",
+  alamat: "",
 });
 
+const valid = ref(true);
+
 const getData = async () => {
-  await orderStore.getByIdUser(dataUser.id_user);
+  await cartStore.getByIdUser(dataUser.id_user);
 };
 
-const updateOrderQty = async (order) => {
+const updateCartQty = async (cart) => {
   const payload = {
-    id: order.id,
-    id_menu: order.menu.id,
-    id_user: order.user.id,
-    qty: order.qty,
-    total_price: order.menu.price * order.qty,
+    id: cart.id,
+    id_menu: cart.menu.id,
+    id_user: cart.user.id,
+    qty: cart.qty,
+    total_price: cart.menu.price * cart.qty,
   };
-  await orderStore.update(payload);
+  await cartStore.update(payload);
   getData();
 };
 
-const deleteOrder = (id) => {
-  orderStore.delete(id);
+const deleteCart = async (id) => {
+  await cartStore.delete(id);
   getData();
 };
 
 const totalPrice = computed(() => {
-  return orderStore.dataOrder.reduce((total, order) => {
-    return total + order.menu.price * order.qty;
+  return cartStore.dataCart.reduce((total, cart) => {
+    return total + cart.menu.price * cart.qty;
   }, 0);
 });
 
@@ -186,12 +214,17 @@ const checkout = async () => {
   try {
     const payload = {
       id_user: dataUser.id_user,
-      id_order: orderStore.dataOrder.map((order) => order.id).join(","),
-      id_menu: orderStore.dataOrder.map((order) => order.menu.id).join(","),
+      id_menu: cartStore.dataCart.map((cart) => cart.menu.id),
+      qty: cartStore.dataCart.map((cart) => cart.qty),
+      id_order: cartStore.dataCart.map((cart) => cart.id),
       total_price: subtotal.value,
       comment: form.value.comment,
+      order_status: "PENDING",
+      no_telp: form.value.no_telp,
+      alamat: form.value.alamat,
     };
-    await transactionStore.create(payload);
+    console.log("payload", payload);
+    await orderStore.create(payload);
   } catch (error) {
     console.error("Checkout error:", error);
     alert("Something went wrong. Please try again.");

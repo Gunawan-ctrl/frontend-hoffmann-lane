@@ -55,15 +55,24 @@
         <span class="text-capitalize">{{ item.order.total_price }}</span>
       </template>
       <template v-slot:[`item.category`]="{ item }">
-        <span class="text-capitalize">{{ item.category.name }}</span>
+        <span class="text-capitalize">{{ item.category?.name }}</span>
       </template>
       <template v-slot:[`item.price`]="{ item }">
         <span class="text-capitalize">{{ $formatCurrency(item.price) }}</span>
       </template>
+      <template v-slot:[`item.menu`]="{ item }">
+        <span class="text-capitalize">{{ item.menu.name }}</span>
+      </template>
       <template v-slot:[`item.payment_type]`]="{ item }">
-        <span class="text-capitalize">{{
-          item.payment_type != null ? item.payment_type : "-"
-        }}</span>
+        <span class="text-capitalize"
+          >{{ item.payment_type != null ? item.payment_type : "-" }}
+        </span>
+      </template>
+      <template v-slot:[`item.user]`]="{ item }">
+        <span class="text-capitalize">{{ item.user.username }} </span>
+      </template>
+      <template v-slot:[`item.order_status]`]="{ item }">
+        <span class="text-capitalize">{{ item.order.order_status }}</span>
       </template>
 
       <template v-slot:[`item.status`]="{ item }">

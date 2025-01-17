@@ -21,7 +21,7 @@ export const useOrderStore = defineStore({
             ...order,
             no: index + 1
           }))
-          console.log('this.data', this.data);
+          console.log('this.data order', this.data);
         }
       } catch (error) {
         console.error('error', error);
@@ -42,9 +42,32 @@ export const useOrderStore = defineStore({
 
     // create order
     async create(payload) {
+      console.log('payload', payload);
       try {
         const response = await axiosInstance.post('/order', payload)
-        console.log('response', response);
+        if (response.data.status) {
+          const responseDelete = await axiosInstance.delete(`/cart/${payload.id_order}`)
+          if (responseDelete.data.status) {
+            console.log('berhasil delete cart');
+          }
+          const snapToken = response.data.data.snapToken
+          window.snap.pay(snapToken, {
+            onSuccess: async (result) => {
+              this.update(result)
+              console.log('sukses', result);
+            },
+            onPending: (result) => {
+              console.log('pending', result);
+            },
+            onError: (result) => {
+              console.log('error', result);
+            },
+            onClose: () => {
+              console.log('close');
+            }
+          })
+        }
+
       } catch (error) {
         console.error('error', error);
       }
@@ -54,7 +77,11 @@ export const useOrderStore = defineStore({
     async update(payload) {
       console.log('payload', payload);
       try {
-        await axiosInstance.put(`/order/${payload.id}`, payload)
+        const response = await axiosInstance.put(`/order/${payload.order_id}`, {
+          order_status: payload.status_message,
+          payment_type: payload.payment_type
+        })
+        console.log('response', response);
       } catch (error) {
         console.error('error', error);
       }

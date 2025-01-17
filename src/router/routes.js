@@ -120,6 +120,14 @@ export default [
         },
         component: () => import('@/views/admin/EditMenuView.vue'),
       },
+      {
+        path: '/order',
+        name: 'order',
+        meta: {
+          title: 'order',
+        },
+        component: () => import('@/views/admin/OrderView.vue'),
+      },
     ],
   },
   {

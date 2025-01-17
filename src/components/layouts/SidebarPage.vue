@@ -27,7 +27,7 @@
       </v-list-item>
 
       <v-list-subheader style="font-size: 14px" class="text-black">
-        USERS
+        USERS & STOKS
       </v-list-subheader>
       <v-list-item
         title="Administrator"
@@ -37,20 +37,6 @@
       >
       </v-list-item>
 
-      <v-list-subheader style="font-size: 14px" class="text-black">
-        TRANSAKSI
-      </v-list-subheader>
-      <v-list-item
-        title="Transaksi"
-        prepend-icon="mdi-swap-horizontal"
-        value="transaction"
-        :to="{ name: 'transaction' }"
-      >
-      </v-list-item>
-
-      <v-list-subheader style="font-size: 14px" class="text-black">
-        MENU & STOK
-      </v-list-subheader>
       <v-list-item
         title="Stok Inventory"
         prepend-icon="mdi-archive"
@@ -58,6 +44,11 @@
         :to="{ name: 'inventory' }"
       >
       </v-list-item>
+
+      <v-list-subheader style="font-size: 14px" class="text-black">
+        MENU & KATEGORI
+      </v-list-subheader>
+
       <v-list-item
         title="Kategori"
         prepend-icon="mdi-folder"
@@ -70,6 +61,24 @@
         prepend-icon="mdi-silverware"
         value="ourmenu"
         :to="{ name: 'ourmenu' }"
+      >
+      </v-list-item>
+
+      <v-list-subheader style="font-size: 14px" class="text-black">
+        TRANSAKSI & ORDER
+      </v-list-subheader>
+      <v-list-item
+        title="Transaksi"
+        prepend-icon="mdi-swap-horizontal"
+        value="transaction"
+        :to="{ name: 'transaction' }"
+      >
+      </v-list-item>
+      <v-list-item
+        title="Order"
+        prepend-icon="mdi-receipt"
+        value="order"
+        :to="{ name: 'order' }"
       >
       </v-list-item>
     </v-list>

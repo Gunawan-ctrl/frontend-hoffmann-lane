@@ -114,13 +114,15 @@
 import { ref, onMounted } from "vue";
 import { useCategoryStore } from "@/stores/categoryStore";
 import { useMenuStore } from "@/stores/menuStore";
-import { useOrderStore } from "@/stores/orderStore";
+// import { useOrderStore } from "@/stores/orderStore";
+import { useCartStore } from "@/stores/cartStore";
 import { useRouter } from "vue-router";
 import notify from "@/boot/notify";
 
 const categoryStore = useCategoryStore();
 const menuStore = useMenuStore();
-const orderStore = useOrderStore();
+// const orderStore = useOrderStore();
+const cartStore = useCartStore();
 
 // const route = useRoute();
 const router = useRouter();
@@ -156,7 +158,8 @@ const addToCart = async (menu) => {
       total_price: menu.price,
       qty: 1,
     };
-    await orderStore.create(payload);
+    // await orderStore.create(payload);
+    await cartStore.create(payload);
   }
 };
 

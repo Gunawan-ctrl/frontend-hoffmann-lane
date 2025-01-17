@@ -22,7 +22,7 @@
       <v-spacer />
 
       <v-btn @click="goToCart" stacked>
-        <v-badge color="btncolor" :content="orderStore?.dataOrder?.length">
+        <v-badge color="btncolor" :content="cartStore?.dataCart?.length">
           <v-icon icon="mdi-cart" color="btncolor"></v-icon>
         </v-badge>
       </v-btn>
@@ -140,10 +140,12 @@
 <script setup>
 import { onMounted, ref, onBeforeMount } from "vue";
 import { useRouter } from "vue-router";
-import { useOrderStore } from "@/stores/orderStore";
+// import { useOrderStore } from "@/stores/orderStore";
+import { useCartStore } from "@/stores/cartStore";
 
 const router = useRouter();
-const orderStore = useOrderStore();
+// const orderStore = useOrderStore();
+const cartStore = useCartStore();
 
 const drawer = ref(false);
 const dataUser = JSON.parse(localStorage.getItem("dataUser"));
@@ -161,7 +163,8 @@ const logout = () => {
 };
 
 const getData = async () => {
-  await orderStore.getByIdUser(dataUser.id_user);
+  await cartStore.getByIdUser(dataUser.id_user);
+  // await orderStore.getByIdUser(dataUser.id_user);
 };
 
 onMounted(async () => {

@@ -27,11 +27,8 @@
             <v-text-field
               v-model="form.identifier"
               type="email"
-              :rules="[
-                (v) => !!v || 'E-mail is required',
-                (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-              ]"
-              placeholder="Email"
+              :rules="[(v) => !!v || 'Username or Email is required']"
+              placeholder="Username or Email"
               required
             />
             <v-text-field
